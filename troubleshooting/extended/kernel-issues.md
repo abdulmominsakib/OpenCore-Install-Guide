@@ -6,7 +6,7 @@ Issues surrounding from initial booting the macOS installer to right before the 
 
 * [Stuck on `[EB|#LOG:EXITBS:START]`](#stuck-on-eb-log-exitbs-start)
 * [Stuck on EndRandomSeed](#stuck-on-endrandomseed)
-* [Stuck after selecting macOS partition in OpenCore](#stuck-after-selecting-macOS-partition-in-opencore)
+* [Stuck after selecting macOS partition in OpenCore](#stuck-after-selecting-macos-partition-in-opencore)
 * [Kernel Panic on `Invalid frame pointer`](#kernel-panic-on-invalid-frame-pointer)
 * [Stuck on [EB|LD:OFS] Err(0xE) when booting preboot volume](#stuck-on-eb-ld-ofs-err-0xe-when-booting-preboot-volume)
 * [Stuck on `OCB: LoadImage failed - Security Violation`](#stuck-on-ocb-loadimage-failed-security-violation)
@@ -29,7 +29,7 @@ Issues surrounding from initial booting the macOS installer to right before the 
 * [Kernel Panic on `Invalid frame pointer`](#kernel-panic-on-invalid-frame-pointer)
 * [`kextd stall[0]: AppleACPICPU`](#kextd-stall-0-appleacpicpu)
 * [Kernel Panic on AppleIntelI210Ethernet](#kernel-panic-on-appleinteli210ethernet)
-* [Kernel panic on "Wrong CD Clock Frequency" with Icelake laptop](#kernel-panic-on-wrong-cd-clock-frequency-with-icelake)
+* [Kernel panic on "Wrong CD Clock Frequency" with Icelake laptop](#kernel-panic-on-wrong-cd-clock-frequency-with-icelake-laptop)
 * [Stuck at `Forcing CS_RUNTIME for entitlement` in Big Sur](#stuck-at-forcing-cs-runtime-for-entitlement-in-big-sur)
 * [Stuck on `ramrod`(^^^^^^^^^^^^^)](#stuck-on-ramrod)
 
@@ -54,10 +54,11 @@ The main culprits to watch for in the Booter section are:
 * **SetupVirtualMap**
   * This quirk is required for the majority of firmwares and without it it's very common to kernel panic here, so enable it if not already
     * Mainly Z390 and older require this quirk enabled
-    * However, certain firmwares do not work with this quirk and so may actually cause this kernel panic:
+    * However, certain firmwares(mainly 2020+) do not work with this quirk and so may actually cause this kernel panic:
       * Intel's Ice Lake series
       * Intel's Comet Lake series(B460, H470, Z490, etc)
       * AMD's B550 and A520(Latest BIOS on X570 are also included now)
+        * Many B450 and X470 boards with late 2020 BIOS updates are also included
       * AMD's TRx40
       * VMs like QEMU
       * X299 2020+ BIOS updates(This applies to other X299 boards on the latest BIOS that released either in late 2019 or 2020+)
@@ -73,7 +74,9 @@ The main culprits to watch for in the Booter section are:
       * EnableWriteUnprotector -> True
       * RebuildAppleMemoryMap -> False
       * SyncRuntimePermissions -> False
-    * Note: Some laptops(ex. Dell Inspiron 5370) even with MATs support will halt on boot up, in these cases you'll be required to boot with the old firmware combo(ie. With EnableWriteUnprotector)
+    * Note: Some laptops(ex. Dell Inspiron 5370) even with MATs support will halt on boot up, in these cases you'll have two options:
+      * Boot with the old firmware quirk combo(ie. With EnableWriteUnprotector and disable `RebuildAppleMemoryMap` + `SyncRuntimePermissions`)
+      * Enable `DevirtualiseMmio` and follow [MmioWhitelist guide](https://dortania.github.io/OpenCore-Install-Guide/extras/kaslr-fix.html)
 
 Regarding MATs support, firmwares built against EDK 2018 will support this and many OEMs have even added support all the way back to Skylake laptops. Issue is it's not always obvious if an OEM has updated the firmware, you can check the OpenCore logs whether yours supports it([See here how to get a log](../debug.html)):
 

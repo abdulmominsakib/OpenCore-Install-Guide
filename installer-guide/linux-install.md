@@ -8,6 +8,7 @@ To start you'll need the following:
 
 * 4GB USB Stick
 * [macrecovery.py](https://github.com/acidanthera/OpenCorePkg/releases)
+  * Note: 0.6.4 and older's macrecovery.py build is broken, you'll want to [download master's copy](https://github.com/acidanthera/OpenCorePkg/archive/master.zip) and use the one located under `Utilities/macrecovery/`
 
 ## Downloading macOS
 
@@ -55,6 +56,9 @@ python ./macrecovery.py -b Mac-00BE6ED71E35EB86 -m 00000000000000000 download
 # Latest version
 # ie. Big Sur(11)
 python ./macrecovery.py -b Mac-E43C1C25D4880AD6 -m 00000000000000000 download
+
+# Note, Apple has temporarily removed Big Sur from the Recovery Catalog
+# Expect Apple to resolve this sometime after the holidays
 ```
 
 From here, run one of those commands in terminal and once finished you'll get an output similar to this:

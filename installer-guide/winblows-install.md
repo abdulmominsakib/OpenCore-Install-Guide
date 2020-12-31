@@ -14,6 +14,8 @@ To start you'll need the following:
 
 To grab legacy installers is super easy, first grab a copy of [OpenCorePkg](https://github.com/acidanthera/OpenCorePkg/releases) and head to `/Utilities/macrecovery/`. Next copy the folder path for the macrecovery folder:
 
+* Note: 0.6.4 and older's macrecovery.py build is broken, you'll want to [download master's copy](https://github.com/acidanthera/OpenCorePkg/archive/master.zip) and use the one located under `Utilities/macrecovery/`
+
 ![](../images/installer-guide/winblows-install-md/file-path.png)
 
 From here, you'll want to open up a Command Prompt and cd into the macrecovery folder that we copied earlier:
@@ -59,6 +61,9 @@ python macrecovery.py -b Mac-00BE6ED71E35EB86 -m 00000000000000000 download
 # Latest version
 # ie. Big Sur(11)
 python macrecovery.py -b Mac-E43C1C25D4880AD6 -m 00000000000000000 download
+
+# Note, Apple has temporarily removed Big Sur from the Recovery Catalog
+# Expect Apple to resolve this sometime after the holidays
 ```
 
 * **macOS 11, Big Sur Note**: As this OS is quite new, there's still some issues with certain systems to resolve. For more information, see here: [OpenCore and macOS 11: Big Sur](../extras/big-sur/README.md)
